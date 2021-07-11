@@ -22,8 +22,8 @@ public class TestConfig implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		User u1 = new User(null, "Henrique Zuper", "henriquezuper@zup.com.br", "41770143890", Instant.parse("1995-08-11T00:00:00Z"));
-		User u2 = new User(null, "Usuário Zuper", "usuariozuper@zup.com.br", "20894158007", Instant.parse("1999-02-20T00:00:00Z"));
+		User u1 = new User(null, "Henrique Zupper", "henriquezuper@zup.com.br", "41770143890", Instant.parse("1995-08-11T00:00:00Z"));
+		User u2 = new User(null, "Usuário Zupper", "usuariozuper@zup.com.br", "20894158007", Instant.parse("1999-02-20T00:00:00Z"));
 	
 		userRepository.saveAll(Arrays.asList(u1, u2));
 	}
