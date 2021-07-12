@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zup.comics.annotations.Cpf;
 
 @Entity
 @Table(name = "tb_user")
@@ -39,7 +40,8 @@ public class User implements Serializable {
 
 	@NotBlank
 	@Column(unique = true)
-	@Size(min = 11, max = 11)
+	@Size(min = 14, max = 14)
+	@Cpf
 	private String cpf;
 
 	@NotNull
