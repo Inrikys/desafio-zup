@@ -41,7 +41,7 @@ public class User implements Serializable {
 	@NotBlank
 	@Column(unique = true)
 	@Size(min = 14, max = 14)
-	@Cpf
+	@Cpf(message = "CPF inválido")
 	private String cpf;
 
 	@NotNull

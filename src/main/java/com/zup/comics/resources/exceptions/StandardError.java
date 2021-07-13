@@ -2,6 +2,10 @@ package com.zup.comics.resources.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.validation.ObjectError;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,6 +18,7 @@ public class StandardError  implements Serializable {
 	private String error;
 	private String message;
 	private String path;
+	private List<ObjectError> errors = new ArrayList<>();
 
 	public StandardError() {
 
@@ -68,4 +73,21 @@ public class StandardError  implements Serializable {
 		this.path = path;
 	}
 
+	public List<String> getErrors() {
+		List<String> errorsList = new ArrayList<>();
+		
+		if(errors.size() > 0) {
+			for(ObjectError x: errors) {
+				errorsList.add(x.getDefaultMessage());
+			}
+		} else {
+			errorsList.add(message);
+		}
+	
+		return errorsList;
+	}
+
+	public void setErrors(List<ObjectError> errors) {
+		this.errors = errors;
+	}
 }
