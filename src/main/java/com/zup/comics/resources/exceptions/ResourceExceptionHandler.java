@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.zup.comics.services.exceptions.DatabaseException;
 import com.zup.comics.services.exceptions.ResourceNotFoundException;
 
+import feign.FeignException;
+
 @ControllerAdvice
 public class ResourceExceptionHandler {
 	
@@ -47,6 +49,17 @@ public class ResourceExceptionHandler {
 				request.getRequestURI());
 		
 		err.setErrors(e.getAllErrors());
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(FeignException.class)
+	public ResponseEntity<StandardError> resourceNotFound(FeignException e, HttpServletRequest request) {
+
+		String error = "Feign error";
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		StandardError err = new StandardError(Instant.now(), e.status(), error, e.getMessage(),
+				request.getRequestURI());
+		
 		return ResponseEntity.status(status).body(err);
 	}
 
