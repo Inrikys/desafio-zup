@@ -38,10 +38,4 @@ public class ComicResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@GetMapping(value = "/marvel")
-	public ResponseEntity<List<MarvelComicResponse>> findAllFromMarvelApi() {
-		List<MarvelComicResponse> list = service.findAllFromMarvelApi();
-		return ResponseEntity.ok().body(list);
-	}
-
 }

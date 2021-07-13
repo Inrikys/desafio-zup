@@ -15,9 +15,4 @@ public interface MarvelClient {
 	@GetMapping("/comics/{id}")
 	public MarvelComicResponse getComicById(@PathVariable("id") Long id, @RequestParam(value = "ts") String ts,
 			@RequestParam(value = "apikey") String apikey, @RequestParam(value = "hash") String hash);
-
-	@GetMapping("/comics")
-	public List<MarvelComicResponse> getComics(@RequestParam(value = "ts") String ts,
-			@RequestParam(value = "apikey") String apikey, @RequestParam(value = "hash") String hash);
-
 }

@@ -3,23 +3,33 @@ package com.zup.comics.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.zup.comics.entities.Comic;
+import com.zup.comics.entities.User;
 import com.zup.comics.feign.MarvelClient;
 import com.zup.comics.feign.dto.marvel.MarvelComicResponse;
+import com.zup.comics.feign.dto.marvel.Price;
+import com.zup.comics.feign.dto.marvel.Result;
 import com.zup.comics.repositories.ComicRepository;
+import com.zup.comics.repositories.UserRepository;
+import com.zup.comics.services.exceptions.DatabaseException;
+import com.zup.comics.services.exceptions.ResourceNotFoundException;
 
 import feign.FeignException;
 
 @Service
-@EnableFeignClients
 public class ComicService {
 
 	@Autowired
 	private ComicRepository repository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private MarvelClient marvelApi;
@@ -34,7 +44,6 @@ public class ComicService {
 
 	public Comic findById(Long id) {
 		Optional<Comic> obj = repository.findById(id);
-
 		return obj.get();
 	}
 
@@ -44,16 +53,41 @@ public class ComicService {
 		} catch (FeignException e) {
 			throw e;
 		}
-
 	}
 
-	public List<MarvelComicResponse> findAllFromMarvelApi() {
+	public User RegisterComicFromMarvelApi(Long comicId, Long userId) {
 		try {
-			return marvelApi.getComics(TS, APIKEY, HASH);
+			MarvelComicResponse marvelComicResponse = marvelApi.getComicById(comicId, TS, APIKEY, HASH);
+
+			// Resgata dados da Marvel API
+			Comic comicObj = new Comic();
+			for (Result x : marvelComicResponse.getData().getResults()) {
+				comicObj.setId(Long.valueOf(x.getId()));
+				comicObj.setName(x.getTitle());
+				comicObj.setDescription(x.getDescription());
+				comicObj.setIsbn(x.getIsbn());
+
+				for (Price p : x.getPrices()) {
+					comicObj.setPrice(p.getPrice());
+				}
+			}
+
+			// Vincula com o usuário
+			Optional<User> userOptional = userRepository.findById(userId);
+			User userObj = userOptional.get();
+			userObj.getComics().add(comicObj);
+
+			// Salva dados
+			repository.save(comicObj);
+			return userRepository.save(userObj);
+
 		} catch (FeignException e) {
 			throw e;
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(userId);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
 		}
-
 	}
 
 }

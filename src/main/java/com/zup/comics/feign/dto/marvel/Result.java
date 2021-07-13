@@ -58,7 +58,7 @@ public class Result {
     @JsonProperty("variantDescription")
     private String variantDescription;
     @JsonProperty("description")
-    private Object description;
+    private String description;
     @JsonProperty("modified")
     private String modified;
     @JsonProperty("isbn")
@@ -159,12 +159,12 @@ public class Result {
     }
 
     @JsonProperty("description")
-    public Object getDescription() {
+    public String getDescription() {
         return description;
     }
 
     @JsonProperty("description")
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

@@ -105,6 +105,10 @@ public class User implements Serializable {
 		this.dob = dob;
 	}
 
+	public Set<Comic> getComics() {
+		return comics;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
