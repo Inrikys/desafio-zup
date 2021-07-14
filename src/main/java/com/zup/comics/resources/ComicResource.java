@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zup.comics.entities.Comic;
+import com.zup.comics.entities.User;
 import com.zup.comics.feign.dto.marvel.MarvelComicResponse;
 import com.zup.comics.services.ComicService;
 
@@ -35,6 +36,12 @@ public class ComicResource {
 	@GetMapping(value = "/marvel/{id}")
 	public ResponseEntity<MarvelComicResponse> findByIdFromMarvelApi(@PathVariable Long id) {
 		MarvelComicResponse obj = service.findByIdFromMarvelApi(id);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping(value = "/register/{comicId}/{userId}")
+	public ResponseEntity<User> registerComicFromMarvelApi(@PathVariable Long comicId, @PathVariable Long userId) {
+		User obj = service.registerComicFromMarvelApi(comicId, userId);
 		return ResponseEntity.ok().body(obj);
 	}
 

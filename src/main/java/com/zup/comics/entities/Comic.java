@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -12,30 +13,36 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zup.comics.entities.enums.DiscountDay;
+import com.zup.comics.util.DateUtil;
 
 @Entity
 @Table(name = "tb_comic")
 public class Comic implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	private Long id;
 	private String name;
 	private Double price;
 	private String isbn;
+	private Integer discountDay;
+	private boolean discountActive;
+
+	@Column(columnDefinition = "LONGVARCHAR")
 	private String description;
-	
+
 	@JsonIgnore
 	@ManyToMany(mappedBy = "comics")
 	private Set<User> owners = new HashSet<>();
-	
+
 	@ManyToMany
 	@JoinTable(name = "tb_comic_creator", joinColumns = @JoinColumn(name = "comic_id"), inverseJoinColumns = @JoinColumn(name = "creator_id"))
 	private Set<Creator> creators = new HashSet<>();
-	
+
 	public Comic() {
-		
+
 	}
 
 	public Comic(Long id, String name, Double price, String isbn, String description) {
@@ -95,6 +102,47 @@ public class Comic implements Serializable {
 		return creators;
 	}
 
+	public Integer getDiscountDay() {
+		this.updateDiscountDay();
+		return this.discountDay;
+	}
+	
+	public boolean getDiscountActive() {
+		this.checkIfHasDiscount();
+		return this.discountActive;
+	}
+	
+	private void updateDiscountDay() {
+		if(!this.isbn.trim().equals("")) {
+			Character lastCharacter = this.isbn.charAt(this.isbn.length() - 1);;
+
+			if (lastCharacter != null) {
+				if (lastCharacter == '0' || lastCharacter == '1') {
+					this.discountDay = DiscountDay.MONDAY.getCode();
+				} else if (lastCharacter == '2' || lastCharacter == '3') {
+					this.discountDay = DiscountDay.TUESDAY.getCode();
+				} else if (lastCharacter == '4' || lastCharacter == '5') {
+					this.discountDay = DiscountDay.WEDNESDAY.getCode();
+				} else if (lastCharacter == '6' || lastCharacter == '7') {
+					this.discountDay = DiscountDay.THURSDAY.getCode();
+				} else if (lastCharacter == '8' || lastCharacter == '9') {
+					this.discountDay = DiscountDay.FRIDAY.getCode();
+				}
+			}
+		}
+
+	}
+	
+	private void checkIfHasDiscount() {
+		if(this.discountDay != null) {
+			if(DateUtil.getCurrentDayOfWeek() == this.getDiscountDay()) {
+				this.discountActive = true;
+			}
+		}
+
+		this.discountActive = false;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -119,5 +167,5 @@ public class Comic implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

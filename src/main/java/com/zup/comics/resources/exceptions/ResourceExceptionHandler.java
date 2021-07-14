@@ -1,6 +1,7 @@
 package com.zup.comics.resources.exceptions;
 
 import java.time.Instant;
+import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -58,6 +59,17 @@ public class ResourceExceptionHandler {
 		String error = "Feign error";
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		StandardError err = new StandardError(Instant.now(), e.status(), error, e.getMessage(),
+				request.getRequestURI());
+		
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(NoSuchElementException.class)
+	public ResponseEntity<StandardError> resourceNotFound(NoSuchElementException e, HttpServletRequest request) {
+
+		String error = "No Such Element error";
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
 				request.getRequestURI());
 		
 		return ResponseEntity.status(status).body(err);

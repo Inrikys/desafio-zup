@@ -10,12 +10,15 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.zup.comics.entities.Comic;
+import com.zup.comics.entities.Creator;
 import com.zup.comics.entities.User;
 import com.zup.comics.feign.MarvelClient;
+import com.zup.comics.feign.dto.marvel.Item;
 import com.zup.comics.feign.dto.marvel.MarvelComicResponse;
 import com.zup.comics.feign.dto.marvel.Price;
 import com.zup.comics.feign.dto.marvel.Result;
 import com.zup.comics.repositories.ComicRepository;
+import com.zup.comics.repositories.CreatorRepository;
 import com.zup.comics.repositories.UserRepository;
 import com.zup.comics.services.exceptions.DatabaseException;
 import com.zup.comics.services.exceptions.ResourceNotFoundException;
@@ -26,10 +29,13 @@ import feign.FeignException;
 public class ComicService {
 
 	@Autowired
-	private ComicRepository repository;
+	private ComicRepository comicRepository;
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private CreatorRepository creatorRepository;
 
 	@Autowired
 	private MarvelClient marvelApi;
@@ -39,11 +45,11 @@ public class ComicService {
 	private final String HASH = "a444cce1b354739736b7c46516ed63aa";
 
 	public List<Comic> findAll() {
-		return repository.findAll();
+		return comicRepository.findAll();
 	}
 
 	public Comic findById(Long id) {
-		Optional<Comic> obj = repository.findById(id);
+		Optional<Comic> obj = comicRepository.findById(id);
 		return obj.get();
 	}
 
@@ -55,7 +61,7 @@ public class ComicService {
 		}
 	}
 
-	public User RegisterComicFromMarvelApi(Long comicId, Long userId) {
+	public User registerComicFromMarvelApi(Long comicId, Long userId) {
 		try {
 			MarvelComicResponse marvelComicResponse = marvelApi.getComicById(comicId, TS, APIKEY, HASH);
 
@@ -70,15 +76,33 @@ public class ComicService {
 				for (Price p : x.getPrices()) {
 					comicObj.setPrice(p.getPrice());
 				}
+
+				// Dados dos autores da Comic
+				for (Item i : x.getCreators().getItems()) {
+					Creator creator = new Creator();
+
+					// Pegar ID do autor pela URL
+					int index = i.getResourceURI().lastIndexOf("/");
+					Long creatorId = Long.parseLong(i.getResourceURI().substring(index + 1));
+
+					// Salva informações necessárias
+					creator.setId(creatorId);
+					creator.setName(i.getName());
+					creator.setRole(i.getRole());
+
+					comicObj.getCreators().add(creator);
+				}
+
 			}
 
-			// Vincula com o usuário
+			creatorRepository.saveAll(comicObj.getCreators());
+			comicRepository.save(comicObj);
+
+			// Vincula Comic com o usuário
 			Optional<User> userOptional = userRepository.findById(userId);
 			User userObj = userOptional.get();
 			userObj.getComics().add(comicObj);
 
-			// Salva dados
-			repository.save(comicObj);
 			return userRepository.save(userObj);
 
 		} catch (FeignException e) {

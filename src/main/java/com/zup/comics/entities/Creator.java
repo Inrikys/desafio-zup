@@ -24,6 +24,9 @@ public class Creator implements Serializable {
 	@NotBlank
 	private String name;
 	
+	@NotBlank
+	private String role;
+	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "creators")
 	private Set<Comic> comics = new HashSet<>();
@@ -52,6 +55,14 @@ public class Creator implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Set<Comic> getComics() {
