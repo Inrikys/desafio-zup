@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Profile;
 
 import com.zup.comics.entities.User;
 import com.zup.comics.repositories.UserRepository;
-import com.zup.comics.util.DateUtil;
 
 @Configuration
 @Profile("test")
