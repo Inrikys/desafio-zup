@@ -22,7 +22,7 @@ Obs: O banco inicialmente foi populado por Comics da DC com ISBN fictício para 
 
 ## Estrutura
 
-![Estrutura](https://i.imgur.com/6WXLc6f.png)
+![Estrutura](https://i.imgur.com/7jrwSnW.png)
 
 ## Rotas
 [POST]
