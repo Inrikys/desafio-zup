@@ -12,6 +12,10 @@ public class CpfValidator implements ConstraintValidator<Cpf, String>{
 	@Override
 	public boolean isValid(String cpf, ConstraintValidatorContext context) {
 		
+		if(cpf == null) {
+			return false;
+		}
+		
 		String cpfSomenteDigitos = cpf.replaceAll("\\D", "");
 		
 		if ((cpfSomenteDigitos == null) || (cpfSomenteDigitos.length() != 11) || cpfSomenteDigitos.equals("00000000000")

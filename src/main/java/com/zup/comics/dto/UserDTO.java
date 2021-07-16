@@ -40,8 +40,6 @@ public class UserDTO implements Serializable {
 		this.comics = entity.getComics().stream().map(x -> new ComicDTO(x)).collect(Collectors.toSet());
 	}
 
-
-
 	public Long getId() {
 		return id;
 	}
@@ -84,9 +82,5 @@ public class UserDTO implements Serializable {
 
 	public Set<ComicDTO> getComics() {
 		return comics;
-	}
-
-	public void setComics(Set<ComicDTO> comics) {
-		this.comics = comics;
 	}
 }

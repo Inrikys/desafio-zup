@@ -1,9 +1,14 @@
 package com.zup.comics.dto;
 
+import java.io.Serializable;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.zup.comics.entities.Comic;
 
 
-public class ComicDTO {
+public class ComicDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String name;
@@ -12,6 +17,8 @@ public class ComicDTO {
 	private Integer discountDay;
 	private boolean discountActive;
 	private String description;
+	
+	private Set<CreatorDTO> creators;
 	
 	public ComicDTO() {
 
@@ -36,6 +43,7 @@ public class ComicDTO {
 		this.discountDay = entity.getDiscountDay();
 		this.discountActive = entity.getDiscountActive();
 		this.description = entity.getDescription();
+		this.creators = entity.getCreators().stream().map(x -> new CreatorDTO(x)).collect(Collectors.toSet());
 	}
 
 	public Long getId() {
@@ -92,5 +100,9 @@ public class ComicDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Set<CreatorDTO> getCreators() {
+		return creators;
 	}
 }

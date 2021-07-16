@@ -1,5 +1,6 @@
 package com.zup.comics.services;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,34 +35,43 @@ public class UserService {
 			Optional<User> obj = repository.findById(id);
 			UserDTO result = new UserDTO(obj.get());
 			return result;
-			
+
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
-		} 
+		}
 
 	}
 
-	public User insert(User obj) {
+	public UserDTO insert(User obj) {
 		try {
-			return repository.save(obj);
+			User userResult = repository.save(obj);
+			UserDTO result = new UserDTO(userResult);
+			return result;
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		} catch (ConstraintViolationException e) {
 			throw new DatabaseException(e.getMessage());
+		} catch (NullPointerException e) {
+			throw e;
 		}
 	}
 
-	public User update(Long id, User obj) {
+	public UserDTO update(Long id, User obj) {
 		try {
 			Optional<User> entity = repository.findById(id);
 			updateData(entity.get(), obj);
-			return repository.save(entity.get());
+			User userResult = repository.save(entity.get());
+			UserDTO result = new UserDTO(userResult);
+			return result;
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
+		} catch (NullPointerException e) {
+			throw e;
+		}catch (DateTimeParseException e) {
+			throw e;
 		}
-
 	}
 
 	public void delete(Long id) {

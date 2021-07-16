@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,21 +31,21 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
-	@Size(min = 3)
+	@NotBlank(message = "Nome obrigatório")
 	private String name;
 
-	@NotBlank
+	@NotBlank(message = "E-mail obrigatório")
+	@Email(message = "E-mail inválido")
 	@Column(unique = true)
 	private String email;
 
-	@NotBlank
 	@Column(unique = true)
 	@Size(min = 14, max = 14)
 	@Cpf(message = "CPF inválido")
+	@NotNull(message = "CPF obrigatório")
 	private String cpf;
 
-	@NotNull
+	@NotNull(message = "Data de nascimento obrigatória")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant dob;
 	

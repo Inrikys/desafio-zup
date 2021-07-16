@@ -2,6 +2,7 @@ package com.zup.comics.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.zup.comics.dto.ComicDTO;
+import com.zup.comics.dto.UserDTO;
 import com.zup.comics.entities.Comic;
 import com.zup.comics.entities.Creator;
 import com.zup.comics.entities.User;
@@ -44,14 +47,16 @@ public class ComicService {
 	private final String TS = "zupper";
 	private final String HASH = "a444cce1b354739736b7c46516ed63aa";
 
-	public List<Comic> findAll() {
-		return comicRepository.findAll();
+	public List<ComicDTO> findAll() {
+		List<Comic> result = comicRepository.findAll();
+		return result.stream().map(x -> new ComicDTO(x)).collect(Collectors.toList());
 	}
 
-	public Comic findById(Long id) {
+	public ComicDTO findById(Long id) {
 		try {
 		Optional<Comic> obj = comicRepository.findById(id);
-		return obj.get();
+		ComicDTO result = new ComicDTO(obj.get());
+		return result;
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
@@ -65,7 +70,7 @@ public class ComicService {
 		}
 	}
 
-	public User registerComicFromMarvelApi(Long comicId, Long userId) {
+	public UserDTO registerComicFromMarvelApi(Long comicId, Long userId) {
 		try {
 			MarvelComicResponse marvelComicResponse = marvelApi.getComicById(comicId, TS, APIKEY, HASH);
 
@@ -106,8 +111,10 @@ public class ComicService {
 			Optional<User> userOptional = userRepository.findById(userId);
 			User userObj = userOptional.get();
 			userObj.getComics().add(comicObj);
-
-			return userRepository.save(userObj);
+				
+			User userResult = userRepository.save(userObj);
+			UserDTO result = new UserDTO(userResult);
+			return result;
 
 		} catch (FeignException e) {
 			throw e;
