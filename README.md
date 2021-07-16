@@ -10,7 +10,7 @@ Obs: O banco inicialmente foi populado por Comics da DC com ISBN fictício para 
 
 ## Modelo conceitual
 
-![Modelo conceitual](https://i.imgur.com/2p9l5af.png)
+![Modelo conceitual](https://i.imgur.com/ptcP7II.png)
 
 ## Tecnologias utilizadas
 
