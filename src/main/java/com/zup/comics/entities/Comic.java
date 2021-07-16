@@ -94,15 +94,7 @@ public class Comic implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Set<User> getOwners() {
-		return owners;
-	}
-
-	public Set<Creator> getCreators() {
-		return creators;
-	}
-
+	
 	public boolean getDiscountActive() {
 		if (this.getDiscountDay() != null) {
 			return DateUtil.getCurrentDayOfWeek() == this.getDiscountDay();
@@ -110,7 +102,7 @@ public class Comic implements Serializable {
 		return false;
 	}
 
-	private Integer getDiscountDay() {
+	public Integer getDiscountDay() {
 		if (!this.isbn.trim().equals("")) {
 			Character lastCharacter = this.isbn.charAt(this.isbn.length() - 1);
 			;
@@ -130,6 +122,14 @@ public class Comic implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	public Set<User> getOwners() {
+		return owners;
+	}
+
+	public Set<Creator> getCreators() {
+		return creators;
 	}
 
 	@Override

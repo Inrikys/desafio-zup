@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "141432b4-6ffc-4199-868c-a434dd014b11",
+		"name": "desafio_zup",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/users",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get User by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/users/2",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insert User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Henrique\", \n\"email\":\"testeee@email.com\", \n\"cpf\": \"446.430.250-50\", \n\"dob\": \"1995-08-11T00:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{local}}/users",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/users/1",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Henrique\", \n\"email\":\"teste1@email.com\", \n\"dob\": \"1995-08-11T00:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{local}}/users/2",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Marvel",
+			"item": [
+				{
+					"name": "Comic",
+					"item": [
+						{
+							"name": "get Comic by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{local}}/comics/marvel/91778",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"comics",
+										"marvel",
+										"91778"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Comic",
+			"item": [
+				{
+					"name": "register Marvel Comic into User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/comics/register/93669/2",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"comics",
+								"register",
+								"93669",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Comics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/comics",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"comics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Comic by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/comics/5",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"comics",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Creators",
+			"item": [
+				{
+					"name": "get Creators",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/creators",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"creators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Creators by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/creators/3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"creators",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Avaliação",
+			"item": [
+				{
+					"name": "insert User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Henrique\", \n\"email\":\"henrique.pereira@gmail.com\", \n\"cpf\": \"446.430.250-50\", \n\"dob\": \"1995-08-11T00:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{local}}/users",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get User by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/users/4",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register Marvel Comic into User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{local}}/comics/register/93669/3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"comics",
+								"register",
+								"93669",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

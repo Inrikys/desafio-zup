@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zup.comics.entities.Comic;
-import com.zup.comics.entities.User;
+import com.zup.comics.dto.ComicDTO;
+import com.zup.comics.dto.UserDTO;
 import com.zup.comics.feign.dto.marvel.MarvelComicResponse;
 import com.zup.comics.services.ComicService;
 
@@ -22,14 +22,14 @@ public class ComicResource {
 	private ComicService service;
 
 	@GetMapping
-	public ResponseEntity<List<Comic>> findAll() {
-		List<Comic> list = service.findAll();
+	public ResponseEntity<List<ComicDTO>> findAll() {
+		List<ComicDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Comic> findById(@PathVariable Long id) {
-		Comic obj = service.findById(id);
+	public ResponseEntity<ComicDTO> findById(@PathVariable Long id) {
+		ComicDTO obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -40,8 +40,8 @@ public class ComicResource {
 	}
 	
 	@GetMapping(value = "/register/{comicId}/{userId}")
-	public ResponseEntity<User> registerComicFromMarvelApi(@PathVariable Long comicId, @PathVariable Long userId) {
-		User obj = service.registerComicFromMarvelApi(comicId, userId);
+	public ResponseEntity<UserDTO> registerComicFromMarvelApi(@PathVariable Long comicId, @PathVariable Long userId) {
+		UserDTO obj = service.registerComicFromMarvelApi(comicId, userId);
 		return ResponseEntity.ok().body(obj);
 	}
 

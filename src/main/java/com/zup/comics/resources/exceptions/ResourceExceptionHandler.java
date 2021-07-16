@@ -1,6 +1,7 @@
 package com.zup.comics.resources.exceptions;
 
 import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +55,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(FeignException.class)
-	public ResponseEntity<StandardError> resourceNotFound(FeignException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> feignException(FeignException e, HttpServletRequest request) {
 
 		String error = "Feign error";
 		HttpStatus status = HttpStatus.NOT_FOUND;
@@ -65,7 +66,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(NoSuchElementException.class)
-	public ResponseEntity<StandardError> resourceNotFound(NoSuchElementException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> elementNoFound(NoSuchElementException e, HttpServletRequest request) {
 
 		String error = "No Such Element error";
 		HttpStatus status = HttpStatus.NOT_FOUND;
@@ -74,5 +75,27 @@ public class ResourceExceptionHandler {
 		
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(NullPointerException.class)
+	public ResponseEntity<StandardError> nullPointException(NullPointerException e, HttpServletRequest request) {
+
+		String error = "Null Pointer error";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		
+		return ResponseEntity.status(status).body(err);
+	}
+	@ExceptionHandler(DateTimeParseException.class)
+	public ResponseEntity<StandardError> dateTimeParseException(DateTimeParseException e, HttpServletRequest request) {
+
+		String error = "Wrong Date Time Format error";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		
+		return ResponseEntity.status(status).body(err);
+	}
+	
 
 }

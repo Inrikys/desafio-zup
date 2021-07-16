@@ -35,8 +35,11 @@ public class TestConfig implements CommandLineRunner {
 				Instant.parse("1995-08-11T00:00:00Z"));
 		User u2 = new User(null, "Usuário Zupper", "usuariozuper@zup.com.br", "208.941.580-07",
 				Instant.parse("1999-02-20T00:00:00Z"));
+		
+		User u3 = new User(null, "Marvel Zupper", "marvelzuper@zup.com.br", "556.448.560-20",
+				Instant.parse("1999-02-20T00:00:00Z"));
 
-		userRepository.saveAll(Arrays.asList(u1, u2));
+		userRepository.saveAll(Arrays.asList(u1, u2, u3));
 
 		Creator c1 = new Creator(1L, "Geoff Johns", "Writer");
 		Creator c2 = new Creator(2L, "Scott Snyder", "Writer");

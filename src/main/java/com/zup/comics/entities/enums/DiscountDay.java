@@ -20,6 +20,6 @@ public enum DiscountDay {
 				return value;
 			}
 		}
-		throw new IllegalArgumentException("Invalid OrderStatus code");
+		throw new IllegalArgumentException("Invalid DiscountDay code");
 	}
 }
