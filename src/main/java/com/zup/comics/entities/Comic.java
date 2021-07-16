@@ -27,8 +27,6 @@ public class Comic implements Serializable {
 	private String name;
 	private Double price;
 	private String isbn;
-	private Integer discountDay;
-	private boolean discountActive;
 
 	@Column(columnDefinition = "LONGVARCHAR")
 	private String description;
@@ -71,6 +69,9 @@ public class Comic implements Serializable {
 	}
 
 	public Double getPrice() {
+		if(this.getDiscountActive()) {
+			return price -= 0.1 * price;
+		}
 		return price;
 	}
 
@@ -102,45 +103,33 @@ public class Comic implements Serializable {
 		return creators;
 	}
 
-	public Integer getDiscountDay() {
-		this.updateDiscountDay();
-		return this.discountDay;
-	}
-	
 	public boolean getDiscountActive() {
-		this.checkIfHasDiscount();
-		return this.discountActive;
+		if (this.getDiscountDay() != null) {
+			return DateUtil.getCurrentDayOfWeek() == this.getDiscountDay();
+		}
+		return false;
 	}
-	
-	private void updateDiscountDay() {
-		if(!this.isbn.trim().equals("")) {
-			Character lastCharacter = this.isbn.charAt(this.isbn.length() - 1);;
+
+	private Integer getDiscountDay() {
+		if (!this.isbn.trim().equals("")) {
+			Character lastCharacter = this.isbn.charAt(this.isbn.length() - 1);
+			;
 
 			if (lastCharacter != null) {
 				if (lastCharacter == '0' || lastCharacter == '1') {
-					this.discountDay = DiscountDay.MONDAY.getCode();
+					return DiscountDay.MONDAY.getCode();
 				} else if (lastCharacter == '2' || lastCharacter == '3') {
-					this.discountDay = DiscountDay.TUESDAY.getCode();
+					return DiscountDay.TUESDAY.getCode();
 				} else if (lastCharacter == '4' || lastCharacter == '5') {
-					this.discountDay = DiscountDay.WEDNESDAY.getCode();
+					return DiscountDay.WEDNESDAY.getCode();
 				} else if (lastCharacter == '6' || lastCharacter == '7') {
-					this.discountDay = DiscountDay.THURSDAY.getCode();
+					return DiscountDay.THURSDAY.getCode();
 				} else if (lastCharacter == '8' || lastCharacter == '9') {
-					this.discountDay = DiscountDay.FRIDAY.getCode();
+					return DiscountDay.FRIDAY.getCode();
 				}
 			}
 		}
-
-	}
-	
-	private void checkIfHasDiscount() {
-		if(this.discountDay != null) {
-			if(DateUtil.getCurrentDayOfWeek() == this.getDiscountDay()) {
-				this.discountActive = true;
-			}
-		}
-
-		this.discountActive = false;
+		return null;
 	}
 
 	@Override

@@ -35,10 +35,11 @@ public class Creator implements Serializable {
 		
 	}
 
-	public Creator(Long id, @NotBlank String name) {
+	public Creator(Long id, String name, String role) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.role = role;
 	}
 
 	public Long getId() {
