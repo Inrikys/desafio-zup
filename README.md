@@ -2,7 +2,7 @@
 
 ## Sobre o projeto
 
-O projeto é uma aplicação WEB desenvolvida para a segunda etapa do processo seletivo da <a href="https://www.zup.com.br/">Zup</a> <3
+O projeto é uma aplicação WEB desenvolvida para a segunda etapa do processo seletivo da <a href="https://www.zup.com.br/">Zup</a> :orange_heart:
 
 A aplicação consiste em cadastrar usuários que podem ter uma coleção de Comics (diretos da API da Marvel). O preço da Comic resgatada deve estar de acordo com a regra de descontos imposta pelo desafio.
 
