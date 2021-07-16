@@ -49,8 +49,12 @@ public class ComicService {
 	}
 
 	public Comic findById(Long id) {
+		try {
 		Optional<Comic> obj = comicRepository.findById(id);
 		return obj.get();
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	public MarvelComicResponse findByIdFromMarvelApi(Long id) {
