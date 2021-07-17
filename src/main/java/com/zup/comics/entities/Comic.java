@@ -105,7 +105,6 @@ public class Comic implements Serializable {
 	public Integer getDiscountDay() {
 		if (!this.isbn.trim().equals("")) {
 			Character lastCharacter = this.isbn.charAt(this.isbn.length() - 1);
-			;
 
 			if (lastCharacter != null) {
 				if (lastCharacter == '0' || lastCharacter == '1') {

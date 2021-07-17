@@ -43,7 +43,10 @@ public class ComicDTO implements Serializable {
 		this.discountDay = entity.getDiscountDay();
 		this.discountActive = entity.getDiscountActive();
 		this.description = entity.getDescription();
-		this.creators = entity.getCreators().stream().map(x -> new CreatorDTO(x)).collect(Collectors.toSet());
+		
+		if(entity.getCreators() != null) {
+			this.creators = entity.getCreators().stream().map(x -> new CreatorDTO(x)).collect(Collectors.toSet());
+		}
 	}
 
 	public Long getId() {
